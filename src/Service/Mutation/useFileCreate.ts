@@ -1,14 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { request } from "../../Config/request";
-interface fileType {
-  data: {
-    fileName: string;
-    path: string;
-    size: number;
-  }[];
-  error: null;
-  success: boolean;
-}
+import { fileType } from "../../components/DataTypes/data-types";
 export const useFileCreate = () => {
   return useMutation({
     mutationFn: (data: FormData) =>

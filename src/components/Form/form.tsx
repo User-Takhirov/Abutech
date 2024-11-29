@@ -3,29 +3,21 @@ import { useCreateData } from "../../Service/Mutation/useCreateData";
 import { useFileCreate } from "../../Service/Mutation/useFileCreate";
 import React from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { dataFormData } from "../DataTypes/data-types";
+import { dataType } from "../DataTypes/data-types";
+// import { ReusableForm } from "../ReUsable-Form/reusable-form";
+
 export const CreateForm = ({ onCancel }: { onCancel: () => void }) => {
   const { mutate: CreateMutate } = useCreateData();
   const client = useQueryClient();
   const { mutate: fileMutate } = useFileCreate();
-  interface dataFormData {
-    title?: string;
-    courseId?: number;
-  }
-
-  interface dataType {
-    data: {
-      fileName: string;
-      path: string;
-      size: number;
-    }[];
-  }
   const [rensData, setResponsData] = React.useState<dataType>();
+
   const submit = (data: dataFormData): void => {
     if (!rensData || !rensData.data[0]) {
       message.error("Faylni yuklang, iltimos!");
       return;
     }
-
     CreateMutate(
       {
         title: data?.title,
@@ -52,7 +44,6 @@ export const CreateForm = ({ onCancel }: { onCancel: () => void }) => {
   const handleFileUpload = (file: any) => {
     const formData = new FormData();
     formData.append("files", file.file);
-
     fileMutate(formData, {
       onSuccess: (res) => {
         setResponsData(res);
@@ -68,43 +59,46 @@ export const CreateForm = ({ onCancel }: { onCancel: () => void }) => {
 
   return (
     <>
-      <Form layout="vertical" onFinish={submit}>
-        <div style={{ marginBottom: "80px" }}>
-          <Form.Item
-            name={"title"}
-            label={"Kurs"}
-            rules={[{ required: true, message: "Kursni tanlang" }]}
+      <div>
+        <Form layout="vertical" onFinish={submit}>
+          <div style={{ marginBottom: "80px" }}>
+            <Form.Item
+              name={"title"}
+              label={"Kurs"}
+              rules={[{ required: true, message: "Kursni tanlang" }]}
+            >
+              <Input type="text" />
+            </Form.Item>
+          </div>
+          <div style={{ marginTop: "-20px", marginBottom: "-20px" }}>
+            <Form.Item
+              name={"courseId"}
+              label="Nomi"
+              rules={[{ required: true, message: "Nomini kiriting" }]}
+            >
+              <Input type="number" />
+            </Form.Item>
+          </div>
+          <Upload
+            customRequest={handleFileUpload}
+            showUploadList={true}
+            maxCount={1}
+            accept=".jpg,.png,.doc,.docx"
+            listType="text"
           >
-            <Input type="text" />
-          </Form.Item>
-        </div>
-        <div style={{ marginTop: "-20px", marginBottom: "-20px" }}>
-          <Form.Item
-            name={"courseId"}
-            label="Nomi"
-            rules={[{ required: true, message: "Nomini kiriting" }]}
+            <Button>Faylni yuklash</Button>
+          </Upload>
+          <div
+            style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
           >
-            <Input type="number" />
-          </Form.Item>
-        </div>
-        <Upload
-          customRequest={handleFileUpload}
-          showUploadList={true}
-          maxCount={1}
-          accept=".jpg,.png,.doc,.docx"
-          listType="text"
-        >
-          <Button>Faylni yuklash</Button>
-        </Upload>
-        <div
-          style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
-        >
-          <Button onClick={onCancel}>Cancel</Button>
-          <Button type="primary" htmlType="submit">
-            Saqlash
-          </Button>
-        </div>
-      </Form>
+            <Button onClick={onCancel}>Cancel</Button>
+            <Button type="primary" htmlType="submit">
+              Saqlash
+            </Button>
+          </div>
+        </Form>
+      </div>
+      {/* <ReusableForm submit={submit} handleFileUpload={handleFileUpload} /> */}
     </>
   );
 };

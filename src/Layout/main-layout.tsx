@@ -1,19 +1,17 @@
 import { Navigate } from "react-router-dom";
 import { loadState } from "../Config/storage";
 import React from "react";
-import { Button, Flex, Table, Modal } from "antd";
+import { Button, Flex, Table, Modal, Dropdown, Form } from "antd";
 import { useGetData } from "../Service/Query/useGetData";
 import { SearchIcon } from "../assets/icons/search-icon";
 import { Search } from "../components/Search";
+// import { CreateForm } from "../components/Form";
+// import { ReusableForm } from "../components/ReUsable-Form/reusable-form";
 import { CreateForm } from "../components/Form";
-// const sharedOnCell = (_: getDataType, index?: number) => {
-//   if (index === 1) {
-//     return { colSpan: 0 };
-//   }
-
-//   return {};
-// };
-
+import { EditOutlined, MoreOutlined } from "@ant-design/icons";
+import { Contract } from "../components/DataTypes/data-types";
+// import { Contract } from "../components/DataTypes/data-types";
+// import { EditOutlined, MoreOutlined } from "@ant-design/icons";
 export interface getDataType {
   data: {
     contracts: {
@@ -39,50 +37,88 @@ interface columType {
   dataIndex: string;
   key: string;
   width?: string;
+  render?: any;
 }
 
-const columns: columType[] = [
-  {
-    title: "#",
-    dataIndex: "key",
-    key: "key",
-    width: "20px",
-  },
-  {
-    title: "Nomi",
-    dataIndex: "name",
-    key: "name",
-    width: "480px",
-  },
-  {
-    title: "Kurs",
-    dataIndex: "title",
-    key: "title",
-  },
-  {
-    title: "change",
-    dataIndex: "change",
-    key: "change",
-  },
-];
 export const MainLayout: React.FC = () => {
   const token = loadState("Token");
+  // const [editingId, setEditingId] = React.useState<number | null>(null);
+  const [form] = Form.useForm();
   const { data } = useGetData();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const item = data?.data.contracts.map((item, index) => {
-    console.log(item.course.name);
-
     return {
       key: index + 1,
       title: item.title,
-      // title: item.course.name,
       name: item.attachment.origName,
-      // name: item.attachment.url,
     };
   });
+  const Edit = (record: Contract) => {
+    setIsModalOpen(!isModalOpen);
+    // setEditingId(record.id);
+    form.setFieldsValue({
+      title: record.title,
+      courseId: 0,
+    });
+  };
+  const menuItems = [
+    {
+      key: "edit",
+      label: "Tahrirlash",
+      icon: <EditOutlined />,
+      onClick: Edit,
+    },
+  ];
+
+  const columns: columType[] = [
+    {
+      title: "#",
+      dataIndex: "key",
+      key: "key",
+      width: "80px",
+    },
+    {
+      title: "Nomi",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Kurs",
+      dataIndex: "title",
+      key: "title",
+    },
+    {
+      title: "Actions",
+      dataIndex: "actions",
+      key: "actions",
+      render: (_: any, record: Contract) => (
+        <Dropdown
+          menu={{
+            items: menuItems.map((item) => ({
+              ...item,
+              onClick: () => Edit(record),
+            })),
+          }}
+          trigger={["click"]}
+        >
+          <Button
+            style={{
+              border: "none",
+              backgroundColor: "transparent",
+              boxShadow: "none",
+            }}
+            icon={<MoreOutlined />}
+          />
+        </Dropdown>
+      ),
+    },
+  ];
   if (!token) {
     return <Navigate to={"/"} />;
   }
+  const onCancel = (): void => {
+    setIsModalOpen(!isModalOpen); // Toggle the modal state
+  };
 
   return (
     <>
@@ -128,7 +164,7 @@ export const MainLayout: React.FC = () => {
         onCancel={() => setIsModalOpen(!isModalOpen)}
         footer
       >
-        <CreateForm onCancel={() => setIsModalOpen(!isModalOpen)} />
+        <CreateForm onCancel={onCancel} />
       </Modal>
     </>
   );
