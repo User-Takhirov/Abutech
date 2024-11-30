@@ -12,7 +12,6 @@ export const CreateForm = ({ onCancel }: { onCancel: () => void }) => {
   const client = useQueryClient();
   const { mutate: fileMutate } = useFileCreate();
   const [rensData, setResponsData] = React.useState<dataType>();
-
   const submit = (data: dataFormData): void => {
     if (!rensData || !rensData.data[0]) {
       message.error("Faylni yuklang, iltimos!");
@@ -98,7 +97,6 @@ export const CreateForm = ({ onCancel }: { onCancel: () => void }) => {
           </div>
         </Form>
       </div>
-      {/* <ReusableForm submit={submit} handleFileUpload={handleFileUpload} /> */}
     </>
   );
 };

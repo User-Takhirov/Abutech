@@ -50,7 +50,7 @@ export const MainLayout: React.FC = () => {
     return {
       key: index + 1,
       title: item.title,
-      name: item.attachment.origName,
+      name: item.attachment ? item.attachment.origName : "",
     };
   });
   const Edit = (record: Contract) => {
