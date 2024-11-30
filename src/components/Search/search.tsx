@@ -20,7 +20,7 @@ export const Search = () => {
           fontWeight: "400",
           fontSize: "19px",
           lineHeight: "150%",
-          border: "2px solid red",
+          border: "none",
           outline: "none",
           backgroundColor: "#fbfbfb",
         }}

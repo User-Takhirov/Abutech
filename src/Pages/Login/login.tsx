@@ -24,7 +24,13 @@ export const Login = () => {
   return (
     <>
       <Flex gap={"80px"}>
-        <div style={{ height: "730px", width: "600px", overflowY: "hidden" }}>
+        <div
+          style={{
+            height: "990px",
+            overflowY: "hidden",
+            width: "600px",
+          }}
+        >
           <img
             style={{ width: "100%", height: "100%" }}
             src={najotImg}
@@ -49,7 +55,7 @@ export const Login = () => {
             </Typography.Title>
           </div>
           <Form style={{ width: "380px" }} onFinish={submit}>
-            <div style={{ marginBottom: "40px" }}>
+            <div style={{ marginBottom: "100px" }}>
               <Form.Item
                 name={"login"}
                 label={"Login"}
@@ -63,7 +69,7 @@ export const Login = () => {
                 />
               </Form.Item>
             </div>
-            <div style={{ marginTop: "16px", marginBottom: "32px" }}>
+            <div style={{ marginTop: "-30px", marginBottom: "100px" }}>
               <Form.Item
                 rules={[{ required: true, message: "parolni kiriting" }]}
                 name={"password"}
@@ -73,7 +79,7 @@ export const Login = () => {
                 <Input.Password size="large" autoComplete="off" />
               </Form.Item>
             </div>
-            <div style={{ marginTop: "64px" }}>
+            <div style={{ marginTop: "-20px" }}>
               <Form.Item>
                 <Button
                   style={{ width: "100%" }}

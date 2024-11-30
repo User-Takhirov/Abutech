@@ -60,7 +60,7 @@ export const CreateForm = ({ onCancel }: { onCancel: () => void }) => {
     <>
       <div>
         <Form layout="vertical" onFinish={submit}>
-          <div style={{ marginBottom: "80px" }}>
+          <div style={{ marginBottom: "100px" }}>
             <Form.Item
               name={"title"}
               label={"Kurs"}
@@ -69,24 +69,26 @@ export const CreateForm = ({ onCancel }: { onCancel: () => void }) => {
               <Input type="text" />
             </Form.Item>
           </div>
-          <div style={{ marginTop: "-20px", marginBottom: "-20px" }}>
+          <div style={{ marginTop: "-80px", marginBottom: "-20px" }}>
             <Form.Item
               name={"courseId"}
               label="Nomi"
               rules={[{ required: true, message: "Nomini kiriting" }]}
             >
-              <Input type="number" />
+              <Input type="number" placeholder="nol kiriting" />
             </Form.Item>
           </div>
-          <Upload
-            customRequest={handleFileUpload}
-            showUploadList={true}
-            maxCount={1}
-            accept=".jpg,.png,.doc,.docx"
-            listType="text"
-          >
-            <Button>Faylni yuklash</Button>
-          </Upload>
+          <div style={{ marginTop: "40px", marginBottom: "40px" }}>
+            <Upload
+              customRequest={handleFileUpload}
+              showUploadList={true}
+              maxCount={1}
+              accept=".jpg,.png,.doc,.docx"
+              listType="text"
+            >
+              <Button>Faylni yuklash</Button>
+            </Upload>
+          </div>
           <div
             style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}
           >
